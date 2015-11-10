@@ -43,6 +43,8 @@ scope.onmessage = function(event) {
       }
     }
   }
+  var lastScrollTime;
+  var v = 0;
  
   function raf(ts) {
     var curScroll = desc.scroller.scrollTop - lastPos;
@@ -54,8 +56,15 @@ scope.onmessage = function(event) {
       scrollChanged = lastPos;
     }
     lastPos = desc.scroller.scrollTop;
-    if (curScroll != 0)
+    if (curScroll != 0) {
+      lastScrollTime = ts;
+      v = 2;
       setPosition(curScroll);
+    } else if (lastScroll != 0 && ts > lastScrollTime + 0.5) {
+      setPosition(v * lastScroll);
+      v += 0.3;
+      v = Math.min(100, v);
+    }
     requestAnimationFrame(raf);
   }
   requestAnimationFrame(raf);
