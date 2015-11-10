@@ -10,7 +10,7 @@ function createAnimatedScroller(toolbar) {
   var message = {
     scroller: new CompositorProxy(document.scrollingElement, ['scrollTop']),
     bar: new CompositorProxy(toolbar, ['transform']),
-    shortHeight: versions[0].getBoundingClientRect().height,
+    shortHeight: 28,
     tallHeight: versions[1].getBoundingClientRect().height,
     toolbars: [[], []],
   };
