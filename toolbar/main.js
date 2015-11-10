@@ -23,6 +23,7 @@ function createAnimatedScroller(toolbar) {
       message.toolbars[i].push({proxy: new CompositorProxy(elem, ['opacity', 'transform']), bounds: {top: b.top, left: b.left, width: b.width, height:b.height}});
     }
   }
+  console.log(message);
   worker.postMessage(message);
 }
 

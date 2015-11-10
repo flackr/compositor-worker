@@ -25,7 +25,6 @@ scope.onmessage = function(event) {
                       height - delta));
     var p = 1.0 - (height - desc.shortHeight) /
                   (desc.tallHeight - desc.shortHeight);
-    console.log(delta, height, p);
     var t = desc.bar.transform;
     var offset = (desc.shortHeight - desc.tallHeight) * p;
     t.m42 = desc.scroller.scrollTop + offset;
