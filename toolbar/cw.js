@@ -40,7 +40,7 @@ scope.onmessage = function(event) {
     }
     lastPos = desc.scroller.scrollTop;
     if (curScroll != 0) {
-      setPosition(desc.scroller.scrollTop - scrollChanged);
+      setPosition(curScroll);
     }
     requestAnimationFrame(raf);
   }
