@@ -28,7 +28,7 @@ function createAnimatedScroller(toolbar) {
 
 function generateContent() {
   var p = document.getElementsByClassName('paragraph')[0];
-  for (var i = 0; i < 50; i++)
+  for (var i = 0; i < 7; i++)
     p.parentNode.appendChild(p.cloneNode(true));
 }
 

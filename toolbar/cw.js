@@ -12,8 +12,8 @@ scope.onmessage = function(event) {
 
   function setTransformBetween(elem, b1, b2, p, offset) {
     var t = elem.transform;
-    t.m41 = (b2.left - b1.left) * p;
-    t.m42 = (b2.top - offset - b1.top) * p;
+    t.m41 = (b2.left - b1.left - 0.5 * (b1.width - b2.width)) * p;
+    t.m42 = (b2.top - b1.top - 0.5 * (b1.height - b2.height)) * p;
     t.m11 = (b2.width / b1.width - 1) * p + 1;
     t.m22 = (b2.height / b1.height - 1) * p + 1;
     elem.transform = t;
