@@ -10,6 +10,15 @@ scope.onmessage = function(event) {
   var scrollChanged = 0;
   var height = desc.tallHeight;
 
+  function setTransformBetween(elem, b1, b2, p, offset) {
+    var t = elem.transform;
+    t.m41 = (b2.left - b1.left) * p;
+    t.m42 = (b2.top - offset - b1.top) * p;
+    t.m11 = (b2.width / b1.width - 1) * p + 1;
+    t.m22 = (b2.height / b1.height - 1) * p + 1;
+    elem.transform = t;
+  }
+
   function setPosition(delta) {
     height = Math.max(desc.shortHeight,
              Math.min(desc.tallHeight,
@@ -18,13 +27,19 @@ scope.onmessage = function(event) {
                   (desc.tallHeight - desc.shortHeight);
     console.log(delta, height, p);
     var t = desc.bar.transform;
-    t.m42 = desc.scroller.scrollTop + (desc.shortHeight - desc.tallHeight) * p;
+    var offset = (desc.shortHeight - desc.tallHeight) * p;
+    t.m42 = desc.scroller.scrollTop + offset;
     desc.bar.transform = t;
     for (var i = 0; i < 2; i++) {
       var pos = p;
       if (i == 0) pos = 1.0 - pos;
+      var other = 1 - i;
       for (var j = 0; j < toolbars[i].length; j++) {
-        toolbars[i][j].opacity = 1.0 - pos;
+        toolbars[i][j].proxy.opacity = 1.0 - pos;
+        setTransformBetween(toolbars[i][j].proxy,
+            toolbars[i][j].bounds,
+            toolbars[other][j].bounds,
+            pos, i == 0 ? 0 : (desc.tallHeight - desc.shortHeight));
       }
     }
   }
@@ -39,7 +54,8 @@ scope.onmessage = function(event) {
       scrollChanged = lastPos;
     }
     lastPos = desc.scroller.scrollTop;
-    setPosition(curScroll);
+    if (curScroll != 0)
+      setPosition(curScroll);
     requestAnimationFrame(raf);
   }
   requestAnimationFrame(raf);

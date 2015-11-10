@@ -19,7 +19,8 @@ function createAnimatedScroller(toolbar) {
   for (var i = 0; i < 2; i++) {
     for (var j = 0; j < versions[0].children.length; j++) {
       var elem = versions[i].children[j];
-      message.toolbars[i].push(new CompositorProxy(elem, ['opacity']));
+      var b = elem.getBoundingClientRect();
+      message.toolbars[i].push({proxy: new CompositorProxy(elem, ['opacity', 'transform']), bounds: {top: b.top, left: b.left, width: b.width, height:b.height}});
     }
   }
   worker.postMessage(message);
