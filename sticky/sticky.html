@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="js/dom-util.js"></script>
+    <script src="js/viewport-observer.js"></script>
+    <script src="js/sticky.js"></script>
+    <style>
+      .sticky {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        border: 3px solid black;
+      }
+
+      body {
+        background-color: #aaa;
+        width: 3000px;
+        height: 3000px;
+      }
+
+      .sticky-content {
+        background-color: white;
+        width: 2000px;
+        height: 2000px;
+        margin: 500px;
+      }
+
+      .top {
+        top: 20px;
+      }
+
+      #red {
+        background-color: red;
+      }
+      .left {
+        left: 20px;
+      }
+
+      #blue {
+        background-color: blue;
+      }
+
+      .right {
+        right: 20px;
+      }
+
+      #green {
+        background-color: green;
+      }
+
+      .bottom {
+        bottom: 20px;
+      }
+
+      #yellow {
+        background-color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sticky-content">
+        <div id="red" class="sticky left">Left sticky</div>
+        <div id="blue" class="sticky right">Right sticky</div>
+        <div id="green" class="sticky bottom">Bottom sticky</div>
+        <div id="yellow" class="sticky top">Top sticky</div>
+    </div>
+  </body>
+</html>

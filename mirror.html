@@ -1,0 +1,158 @@
+
+<script id='compositor_worker' type='text/compositor-worker'>
+(function(scope) {
+
+scope.onmessage = function(event) {
+  var message = event.data;
+  var main = message['main'];
+  var mirror = message['mirror'];
+  var main_container = message['main_container'];
+  var mirror_container = message['mirror_container'];
+
+  function raf() {
+    mirror.opacity = main.opacity;
+    mirror.transform = main.transform;
+    mirror.scrollLeft = main.scrollLeft;
+
+    mirror_container.scrollLeft = main_container.scrollLeft;
+    mirror_container.scrollTop = main_container.scrollTop;
+
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);
+};
+
+})(self);
+</script>
+
+<style>
+
+.container {
+  width: 300px;
+  height: 300px;
+  overflow: scroll;
+}
+
+.x {
+  width: 500px;
+  height: 1000px;
+}
+
+#main {
+  background-color: gray;
+  transition: all 5s ease;
+}
+
+#mirror {
+  background-color: silver;
+}
+
+.animate-opacity {
+  opacity: 0.5;
+}
+
+.animate-transform {
+  transform: translateX(100px);
+}
+
+</style>
+
+<div class='container' id='main_container'>
+  <div id='main' class='x'>
+    <pre>
+00
+01
+02
+03
+04
+05
+06
+07
+08
+09
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+    </pre>
+  </div>
+</div>
+
+<div class='container' id='mirror_container'>
+  <div id='mirror' class='x'>
+  </div>
+</div>
+
+<script>
+
+mirror.appendChild(main.firstElementChild.cloneNode(true));
+
+if (('CompositorProxy' in window)) {
+  var mainp = new CompositorProxy(main, ['opacity', 'transform', 'scrollLeft']);
+  var mirrorp = new CompositorProxy(mirror, ['opacity', 'transform', 'scrollLeft']);
+  var main_containerp = new CompositorProxy(main_container,
+      ['scrollLeft', 'scrollTop']);
+  var mirror_containerp = new CompositorProxy(mirror_container,
+      ['scrollLeft', 'scrollTop']);
+
+  var url = window.URL.createObjectURL(new Blob([compositor_worker.textContent]));
+  
+  var worker = new CompositorWorker(url);
+  worker.postMessage({
+    'main' : mainp,
+    'mirror' : mirrorp,
+    'main_container' : main_containerp,
+    'mirror_container' : mirror_containerp
+  });
+
+  window.setTimeout(function() {
+    main.classList.add('animate-transform');
+    main.classList.add('animate-opacity');
+    window.setTimeout(function() {
+      var old = Date.now();
+      var count = 0;
+      while (Date.now() - old < 3000)
+        ++count;
+      console.log(count);
+    }, 10);
+  }, 3000);
+}
+
+</script>
