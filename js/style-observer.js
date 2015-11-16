@@ -59,6 +59,7 @@ StyleObserver.prototype = {
 
   checkNow: function() {
     var changed = false;
+    var changedElements = [];
     for (var i = 0; i < this.observed.length; i++) {
       var obj = this.observed[i];
       var cs = getComputedStyle(obj.target);
@@ -67,10 +68,11 @@ StyleObserver.prototype = {
         if (cs[p] != obj.current[p]) {
           changed = true;
           obj.current[p] = cs[p];
+          changedElements.push(obj.target);
         }
       }
     }
     if (changed)
-      this.callback();
+      this.callback(changedElements);
   },
 };

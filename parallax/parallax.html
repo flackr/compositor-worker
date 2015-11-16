@@ -13,14 +13,8 @@
   background-image: url('http://pngimg.com/upload/cloud_PNG29.png');
 }
 #content {
-  transform:translateZ(1px);
+  transform: translateZ(1px);
 }
-/*
-#content > p {
-  background-color: white;
-  opacity: 0.7;
-  border-radius: 20px;
-}*/
 </style>
 <script>
 function generateContent() {
@@ -45,4 +39,8 @@ document.addEventListener('DOMContentLoaded', generateContent);
   </p>
   </div>
 <script src="parallax.js"></script>
+<script src="../js/style-observer.js"></script>
+<script>
+var parallaxObserver = new StyleObserver(e => e.forEach(updateParallaxElement));
+</script>
 </body>
