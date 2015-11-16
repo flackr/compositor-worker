@@ -46,23 +46,27 @@ scope.onmessage = function(event) {
   var v = 0;
  
   function raf(ts) {
-    var curScroll = desc.scroller.scrollTop - lastPos;
-    if (curScroll > 0 && lastScroll <= 0) {
-      lastScroll = 1;
-      scrollChanged = lastPos;
-    } else if (curScroll < 0 && lastScroll >= 0) {
-      lastScroll = -1;
-      scrollChanged = lastPos;
-    }
-    lastPos = desc.scroller.scrollTop;
-    if (curScroll != 0) {
-      lastScrollTime = ts;
-      v = 2;
-      setPosition(curScroll);
-    } else if (lastScroll != 0 && ts > lastScrollTime + 0.5) {
-      setPosition(v * lastScroll);
-      v += 0.3;
-      v = Math.min(100, v);
+    try {
+      var curScroll = desc.scroller.scrollTop - lastPos;
+      if (curScroll > 0 && lastScroll <= 0) {
+        lastScroll = 1;
+        scrollChanged = lastPos;
+      } else if (curScroll < 0 && lastScroll >= 0) {
+        lastScroll = -1;
+        scrollChanged = lastPos;
+      }
+      lastPos = desc.scroller.scrollTop;
+      if (curScroll != 0) {
+        lastScrollTime = ts;
+        v = 2;
+        setPosition(curScroll);
+      } else if (lastScroll != 0 && ts > lastScrollTime + 0.5) {
+        setPosition(v * lastScroll);
+        v += 0.3;
+        v = Math.min(100, v);
+      }
+    } catch (e) {
+      console.log('Error on CW: ' + e.message);
     }
     requestAnimationFrame(raf);
   }
