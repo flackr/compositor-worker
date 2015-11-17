@@ -17,5 +17,5 @@ custom builds ([Linux][Linux], [Mac][Mac], [Android][Android]) which have the fo
  * [Mirror](http://flackr.github.io/compositor-worker/mirror/mirror.html)
 
 [Linux]: TBD
-[Mac]: TBD
-[Android]: TBD
+[Mac]: https://drive.google.com/file/d/0BwRmfJh9cATSQ3RkaFRPbm5BTFk/view?usp=sharing
+[Android]: https://drive.google.com/file/d/0BwRmfJh9cATSLWZncW8yRHZONUU/view?usp=sharing
