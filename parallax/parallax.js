@@ -46,7 +46,7 @@
     console.log("init worker");
 
     self.onmessage = function(e) {
-      onsole.log("onmessage");
+      console.log("onmessage");
       scope.parallaxMap = e.data;
     };
 
