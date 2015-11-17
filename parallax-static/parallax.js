@@ -20,8 +20,6 @@
     console.log("init worker");
 
     self.onmessage = function(e) {
-      console.log("onmessage");
-
       scope.scroller = e.data[0];
       scope.bg = e.data[1];
       scope.bg2 = e.data[2];
