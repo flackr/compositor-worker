@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<style>
+#bg, #bg2 {
+  width: 100%;
+  height: 2000px;
+  position: absolute;
+}
+#bg {
+  background-image: url('https://c2.staticflickr.com/4/3796/12180701126_175b9bed4a_o_d.jpg');
+  opacity: 0.5;
+}
+#bg2 {
+  background-image: url('http://pngimg.com/upload/cloud_PNG29.png');
+}
+#content {
+  transform:translateZ(1px);
+}
+/*
+#content > p {
+  background-color: white;
+  opacity: 0.7;
+  border-radius: 20px;
+}*/
+</style>
+<script>
+function generateContent() {
+  var p = document.getElementsByClassName('paragraph')[0];
+  for (var i = 0; i < 50; i++)
+    p.parentNode.appendChild(p.cloneNode(true));
+}
+document.addEventListener('DOMContentLoaded', generateContent);
+</script>
+<body>
+  <div id="bg"></div>
+  <div id="bg2"></div>
+ <div id="content">
+  <p class="paragraph">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+    velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+    cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum.
+  </p>
+  </div>
+<script src="parallax.js"></script>
+</body>
