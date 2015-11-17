@@ -33,10 +33,10 @@
   };
 
   scope.tick = function(timestamp) {
-    for (var i : scope.parallaxMap.keys()) {
+    for (var i in scope.parallaxMap) {
       var record = scope.parallaxMap[i];
       var transform = record.parallaxer.transform;
-      transform.translateSelf(0, record.scroller.scrollTop * record.parallaxRate);
+      transform.m42 = record.scroller.scrollTop * record.parallaxRate;
       record.parallaxer.transform = transform;
     }
     scope.requestAnimationFrame(tick);
@@ -60,12 +60,12 @@
     scope.parallaxMap[element.parallaxId] = {
       'scroller': new CompositorProxy(scope.findAncestorScroller(element), ['scrollTop']),
       'parallaxer': new CompositorProxy(element, ['transform']),
-      'parallaxRate': element.styleMap.get('--parallax-rate').value,
+      'parallaxRate': parseFloat(element.dataset.parallaxRate),
     };
   };
 
   scope.updateParallaxElement = function(element) {
-    if (!element.styleMap.get('--parallax-rate')) {
+    if (!element.dataset.parallaxRate) {
       delete scope.parallaxMap[element.id];
     } else {
       addParallaxElement(element);
