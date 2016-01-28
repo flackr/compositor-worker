@@ -1,15 +1,37 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
     <script src="js/dom-util.js"></script>
     <script src="js/viewport-observer.js"></script>
     <script src="js/sticky.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('create');
+      var amt = document.getElementById('amount');
+      var container = document.getElementById('container');
+      btn.addEventListener('click', function() {
+        for (var i = container.children.length - 1; i >= 0; i--)
+          container.removeChild(container.children[i]);
+        var total = parseInt(amt.value);
+        for (var i = 0; i < total; i++) {
+          var div = document.createElement('div');
+          div.classList.add('sticky');
+          div.classList.add(['top', 'right', 'bottom', 'left'][Math.floor(Math.random() * 4)]);
+          container.appendChild(div);
+        }
+        intializeSticky();
+      });
+      intializeSticky();
+    });
+    </script>
     <style>
       .sticky {
         display: inline-block;
         width: 100px;
         height: 100px;
         border: 3px solid black;
+        position: sticky;
       }
 
       body {
@@ -27,42 +49,40 @@
 
       .top {
         top: 20px;
-      }
-
-      #red {
         background-color: red;
       }
       .left {
         left: 20px;
-      }
-
-      #blue {
         background-color: blue;
       }
 
       .right {
         right: 20px;
-      }
-
-      #green {
         background-color: green;
       }
 
       .bottom {
         bottom: 20px;
-      }
-
-      #yellow {
         background-color: yellow;
+      }
+      .spacer {
+        height: 1800px;
+      }
+      .horiz-spacer {
+        display: inline-block;
+        width: 1600px;
       }
     </style>
   </head>
   <body>
-    <div class="sticky-content">
-        <div id="red" class="sticky left">Left sticky</div>
-        <div id="blue" class="sticky right">Right sticky</div>
-        <div id="green" class="sticky bottom">Bottom sticky</div>
-        <div id="yellow" class="sticky top">Top sticky</div>
+    <div class="sticky-content" id="container">
+      <input type="text" id="amount" placeholder="# of elements"><button id="create">Create</button>
+      <div class="sticky left"></div>
+      <div class="sticky top"></div>
+      <div class="spacer"></div>
+      <div class="sticky bottom"></div>
+      <div class="horiz-spacer"></div>
+      <div class="sticky right"></div>
     </div>
   </body>
 </html>

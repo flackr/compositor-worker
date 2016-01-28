@@ -3,11 +3,11 @@
   function getStickyElements(nodelist, node) {
     nodelist = nodelist || [];
     node = node || document.body;
-    if (node.classList.contains('sticky'))
+    // Only add nodes if they don't have position sticky, otherwise we assume
+    // the browser has made them sticky.
+    if (getComputedStyle(node).position != 'sticky' && node.classList.contains('sticky')) {
       nodelist.push(node);
-    // Q: How do we support this position property?
-    // if (getComputedStyle(node).position == 'sticky')
-    //   nodelist.append(node);
+    }
 
     // Q: How do we just do work on sticky elements rather than entire DOM?
     for (var i = 0; i < node.children.length; ++i) {
@@ -49,6 +49,8 @@
 
   function gatherStickyInfo() {
     var nodes = getStickyElements();
+    if (nodes.length == 0)
+      return;
     scope.sticky_info = [];
     for (var i = 0; i < nodes.length; i++) {
       var node = nodes[i];
@@ -65,7 +67,8 @@
       installStickyHandler(s, node, info);
     }
     if (scope.CompositorWorker) {
-      scope.worker = new CompositorWorker('js/sticky.js');
+      if (!scope.worker)
+        scope.worker = new CompositorWorker('js/sticky.js');
       scope.worker.postMessage(scope.sticky_info);
     }
   }
@@ -89,14 +92,22 @@
       min: c.top - s.top + (clamp.top || 0),
       max: c.bottom - s.bottom - (clamp.bottom || 0),
     }};
-    if (clamp.bottom)
+    if (clamp.bottom) {
+      limits.y.max = Math.min(0, limits.y.max);
       limits.y.attachment = 'bottom';
-    if (clamp.top)
+    }
+    if (clamp.top) {
+      limits.y.min = Math.max(0, limits.y.min);
       limits.y.attachment = 'top';
-    if (clamp.right)
+    }
+    if (clamp.right) {
+      limits.x.max = Math.min(0, limits.x.max);
       limits.x.attachment = 'right';
-    if (clamp.left)
+    }
+    if (clamp.left) {
+      limits.x.min = Math.max(0, limits.x.min);
       limits.x.attachment = 'left';
+    }
     return limits;
   }
 
@@ -159,7 +170,7 @@
 
 
   if (scope.window) {
-    scope.document.addEventListener('DOMContentLoaded', gatherStickyInfo);
+    scope.window.intializeSticky = gatherStickyInfo;
   } else {
     scope.sticky_info = [];
     initCompositorWorker();

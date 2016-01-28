@@ -28,7 +28,7 @@ function getContainingBlockElement(node) {
 
 function isScrollable(element) {
   // Q: Why is scrollHeight > clientHeight on body when document is scrollable node?
-  return element.scrollHeight > element.clientHeight || element == document.scrollingElement;
+  return getComputedStyle(element).overflow != 'visible' && element.scrollHeight > element.clientHeight || element == document.scrollingElement;
 }
 
 function getContainingScrollingElement(element) {
