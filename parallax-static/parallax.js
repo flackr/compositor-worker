@@ -4,15 +4,12 @@
   scope.isMain = function() {
     return scope.window;
   };
-  var lastScroll = 1;
 
   scope.tick = function(timestamp) {
-    if (!scroller.initialized || !bg.initialized || !bg2.initialized || !bg3.initialized || scroller.scrollTop == lastScroll) {
+    if (!scroller.initialized || !bg.initialized || !bg2.initialized || !bg3.initialized) {
       scope.requestAnimationFrame(tick);
       return;
     }
-    lastScroll = scroller.scrollTop;
-    self.postMessage('Scroll is at ' + lastScroll);
     var t = bg.transform;
     t.m42 = Math.round(scroller.scrollTop*0.8);
     bg.transform = t;
