@@ -24,6 +24,7 @@
   };
 
   scope.initWorker = function() {
+    console.log('Init on worker');
     self.postMessage('worker is alive');
 
     self.onmessage = function(e) {
